@@ -1,0 +1,890 @@
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+  color: #2d3748;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+.dashboard-header {
+  background: #fff;
+  padding: 16px 0;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: #718096;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-primary {
+  background: #2c5282;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2b6cb0;
+}
+
+.btn-secondary {
+  background: #edf2f7;
+  color: #4a5568;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #c53030;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #9b2c2c;
+}
+
+.logout-button {
+  background: #c53030;
+  color: white;
+}
+
+.logout-button:hover {
+  background: #9b2c2c;
+}
+
+/* Navigation Tabs */
+.tabs-container {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.tabs-nav {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-button {
+  padding: 16px 24px;
+  color: #718096;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+
+.tab-button.active {
+  color: #2c5282;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #2c5282;
+}
+
+.tab-button:focus {
+  outline: none;
+}
+
+.tab-button {
+  
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover:not(.active) {
+  color: #4a5568;
+  background: #f7fafc;
+}
+
+/* Content Area */
+.dashboard-content {
+  max-width: 768px;
+  margin: 0 auto 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Forms */
+.form-header {
+  padding: 20px;
+  background: #f7fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.form-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 4px;
+}
+
+.form-header p {
+  font-size: 14px;
+  color: #718096;
+}
+
+.form-content {
+  padding: 20px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  padding: 10px 12px;
+  background: #1a202c;
+  color: #f7fafc;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: box-shadow 0.2s;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+}
+
+.form-field input::placeholder {
+  color: #a0aec0;
+  opacity: 0.7;
+}
+
+.form-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23f7fafc'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.form-field input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.7;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: #2c5282;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-button:hover {
+  background: #2b6cb0;
+}
+
+.submit-button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+}
+
+/* Student info styles */
+.student-info {
+  background: #f7fafc;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.info-label {
+  width: 180px;
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.info-value {
+  color: #2d3748;
+  font-size: 14px;
+  flex: 1;
+}
+
+
+.simple-records-container {
+  max-width: 768px;
+  margin: 0 auto 40px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.simple-records-header {
+  padding: 20px;
+  background: #f7fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.simple-records-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.simple-records-count {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #edf2f7;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #4a5568;
+}
+
+.simple-records-list {
+  padding: 4px 0;
+}
+
+.simple-record-item {
+  display: flex;
+  padding: 16px 20px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.simple-record-item:last-child {
+  border-bottom: none;
+}
+
+.simple-record-item:hover {
+  background-color: #f9fafb;
+}
+
+.simple-record-date {
+  min-width: 60px;
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 20px;
+  border-right: 1px solid #edf2f7;
+}
+
+.simple-date-day {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
+  line-height: 1.2;
+}
+
+.simple-date-month {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.simple-date-weekday {
+  font-size: 12px;
+  color: #718096;
+  margin-top: 4px;
+}
+
+.simple-record-details {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.simple-detail-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.simple-detail-row:last-child {
+  margin-bottom: 0;
+}
+
+.simple-detail-label {
+  width: 100px;
+  font-size: 14px;
+  color: #718096;
+}
+
+.simple-detail-value {
+  font-size: 14px;
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.simple-reason-tag {
+  display: inline-block;
+  background: #f0f9ff;
+  color: #3182ce;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.simple-no-records {
+  padding: 30px 20px;
+  text-align: center;
+  color: #718096;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Responsive adjustments for the student dashboard */
+@media (max-width: 768px) {
+  .simple-records-container {
+    margin: 16px;
+  }
+  
+  .simple-records-header {
+    padding: 16px;
+  }
+  
+  .simple-record-item {
+    flex-direction: column;
+  }
+  
+  .simple-record-date {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-right: 0;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-right: none;
+    border-bottom: 1px solid #edf2f7;
+  }
+  
+  .simple-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  
+  .simple-detail-label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+}
+/* Alerts */
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 0 auto 20px;
+  font-size: 14px;
+  max-width: 768px;
+  display: flex;
+  align-items: center;
+}
+
+.alert-success {
+  background: #f0fff4;
+  color: #276749;
+  border-left: 4px solid #38a169;
+}
+
+.alert-error {
+  background: #fff5f5;
+  color: #c53030;
+  border-left: 4px solid #e53e3e;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  /* Improved Mobile Header Styles */
+@media (max-width: 768px) {
+  /* General header positioning */
+  .dashboard-header {
+    padding: 12px 0;
+  }
+  
+  .header-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  /* Logo and title section */
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 75%;
+  }
+  
+  .header-logo {
+    height: 32px;
+    width: auto;
+  }
+  
+  .header-title h1 {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  
+  .header-subtitle {
+    font-size: 11px;
+  }
+  
+  /* Logout button */
+  .logout-button {
+    padding: 6px 14px;
+    font-size: 13px;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  
+  /* Very small screens adjustments */
+  @media (max-width: 380px) {
+    .container {
+      padding: 0 12px;
+    }
+    
+    .header-left {
+      max-width: 70%;
+    }
+    
+    .header-logo {
+      height: 28px;
+    }
+    
+    .header-title h1 {
+      font-size: 14px;
+    }
+    
+    .logout-button {
+      padding: 5px 12px;
+      font-size: 12px;
+    }
+  }
+}
+  .dashboard-content, 
+  .simple-records-container {
+    margin: 16px;
+  }
+  
+  .form-content,
+  .simple-records-header {
+    padding: 16px;
+  }
+  
+  .simple-record-item {
+    flex-direction: column;
+  }
+  
+  .simple-record-date {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    padding-right: 0;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-right: none;
+    border-bottom: 1px solid #edf2f7;
+  }
+  
+  .simple-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  
+  .simple-detail-label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .dashboard-header,
+  .btn,
+  .submit-button {
+    display: none;
+  }
+  
+  .dashboard-content,
+  .simple-records-container {
+    box-shadow: none;
+    margin: 0;
+  }
+  
+  body {
+    background: white;
+  }
+  
+}
+
+/* Student Dashboard Mobile Header Optimization */
+@media (max-width: 768px) {
+  /* Header layout improvements */
+  .dashboard-header {
+    padding: 12px 0;
+  }
+  
+  .header-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  
+  /* Left side with logo and title */
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0; /* Important for text truncation */
+    overflow: hidden;
+  }
+  
+  .header-logo {
+    height: 32px;
+    min-width: 32px; /* Prevent logo from shrinking */
+    width: 32px;
+    object-fit: contain;
+  }
+  
+  .header-title {
+    min-width: 0; /* Enable text truncation */
+    overflow: hidden;
+  }
+  
+  .header-title h1 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .header-subtitle {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Back to Home button */
+  .btn-secondary {
+    padding: 6px 12px;
+    font-size: 13px;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+  
+  /* Very small screens (under 380px) */
+  @media (max-width: 380px) {
+    .container {
+      padding: 0 12px;
+    }
+    
+    .header-logo {
+      height: 28px;
+      min-width: 28px;
+      width: 28px;
+    }
+    
+    .header-left {
+      gap: 8px;
+    }
+    
+    .header-title h1 {
+      font-size: 14px;
+    }
+    
+    .header-subtitle {
+      font-size: 10px;
+    }
+    
+    .btn-secondary {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+  }
+}
+/* Compact Teacher Dashboard - Late Coming Records Section */
+.teacher-records-container {
+  max-width: 1050px; /* Fixed width instead of percentage */
+  margin: 25px auto 40px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.teacher-records-header {
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.teacher-records-header h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.teacher-records-header p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0;
+}
+
+/* Compact table styles */
+.teacher-records-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+table {
+  min-width: 800px;
+}
+
+table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+table td {
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* Column widths - more compact */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 110px; /* Date */
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 90px; /* Reg Number */
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 100px; /* Name */
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 80px; /* Department */
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+  width: 70px; /* Section */
+}
+
+table th:nth-child(6),
+table td:nth-child(6) {
+  width: 70px; /* Time */
+}
+
+table th:nth-child(7),
+table td:nth-child(7) {
+  width: 100px; /* Reason */
+}
+
+table th:nth-child(8),
+table td:nth-child(8) {
+  width: 80px; /* Action */
+  text-align: center;
+}
+
+/* Compact delete button */
+.delete-button {
+  padding: 6px 12px;
+  background: #1e1e1e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.delete-button:hover {
+  background: #c53030;
+}
+
+/* Empty state */
+.no-records {
+  padding: 30px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1100px) {
+  .teacher-records-container {
+    max-width: 95%;
+  }
+}
