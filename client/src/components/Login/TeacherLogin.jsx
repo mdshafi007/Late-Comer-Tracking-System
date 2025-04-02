@@ -28,6 +28,10 @@ const TeacherLogin = () => {
             if (response.ok) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('role', 'teacher');
+                // Store section information if available
+                if (data.section) {
+                    localStorage.setItem('section', data.section);
+                }
                 navigate('/teacher/dashboard');
             } else {
                 setError(data.message || 'Invalid credentials');

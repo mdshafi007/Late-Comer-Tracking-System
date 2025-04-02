@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/dashboard.css';
 
 const TeacherDashboard = () => {
-  const [activeTab, setActiveTab] = useState('add');
+  const [activeTab, setActiveTab] = useState('view');
   const [records, setRecords] = useState([]);
+  const [filteredRecords, setFilteredRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [showOnlyMySection, setShowOnlyMySection] = useState(false);
+  const [teacherSection, setTeacherSection] = useState('');
   const [formData, setFormData] = useState({
     regdNumber: '',
     name: '',
@@ -16,35 +19,78 @@ const TeacherDashboard = () => {
     time: '',
     reason: ''
   });
+  const [selectedDate, setSelectedDate] = useState(''); // New state for selected date
   
   const navigate = useNavigate();
 
-  const fetchRecords = useCallback(async () => {
-    try {
+  // Teacher ID to section mapping
+  const teacherSectionMap = {
+    '4272': 'A'
+    // Add more teacher IDs and their sections here
+    // '1234': 'B',
+    // '5678': 'C',
+    // etc.
+  };
+
+ // Modify the fetchRecords function to pass the date filter as a query parameter
+const fetchRecords = useCallback(async () => {
+  try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/students', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
       
+      // Add date to query parameters if selected
+      const dateFilter = selectedDate ? `&date=${selectedDate}` : '';
+
+      const response = await fetch(`http://localhost:5000/api/students?${dateFilter}`, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+      });
+
       if (!response.ok) throw new Error('Failed to fetch records');
       
       const data = await response.json();
       setRecords(data);
-    } catch (error) {
+
+      // Apply section filter if active
+      let filtered = data;
+      if (showOnlyMySection && teacherSection) {
+          filtered = filtered.filter(record => record.section === teacherSection);
+      }
+
+      setFilteredRecords(filtered);
+  } catch (error) {
       showMessage('error', error.message || 'Error fetching records');
-    } finally {
+  } finally {
       setLoading(false);
-    }
-  }, []);
+  }
+}, [showOnlyMySection, teacherSection, selectedDate]);
+
 
   useEffect(() => {
-    if (activeTab === 'view') {
-      fetchRecords();
+    // Get teacherId from localStorage and set the corresponding section
+    const teacherId = localStorage.getItem('teacherId') || '4272'; // Default to 4272 for testing
+    const section = teacherSectionMap[teacherId];
+    if (section) {
+      setTeacherSection(section);
     }
-  }, [activeTab, fetchRecords]);
+    
+    fetchRecords();
+  }, [fetchRecords]);
+
+  // Apply filter when showOnlyMySection changes
+  useEffect(() => {
+    if (showOnlyMySection && teacherSection) {
+      const filtered = records.filter(record => record.section === teacherSection);
+      setFilteredRecords(filtered);
+    } else {
+      setFilteredRecords(records);
+    }
+  }, [showOnlyMySection, teacherSection, records]);
+
+  const toggleSectionFilter = () => {
+    setShowOnlyMySection(!showOnlyMySection);
+  };
 
   const showMessage = (type, text) => {
     setMessage({ type, text });
@@ -121,6 +167,7 @@ const TeacherDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('teacherId');
     navigate('/teacher/login');
   };
 
@@ -135,19 +182,19 @@ const TeacherDashboard = () => {
   return (
     <>
       <header className="dashboard-header">
-  <div className="container">
-    <div className="header-content">
-      <div className="header-left">
-        <img src="/vignan-logo.jpg" alt="Vignan Logo" className="header-logo" />
-        <div className="header-title">
-          <h1>Teacher Dashboard</h1>
-          <span className="header-subtitle">Late Comer Tracking System</span>
+        <div className="container">
+          <div className="header-content">
+            <div className="header-left">
+              <img src="/vignan-logo.jpg" alt="Vignan Logo" className="header-logo" />
+              <div className="header-title">
+                <h1>Teacher Dashboard</h1>
+                <span className="header-subtitle">Late Comer Tracking System</span>
+              </div>
+            </div>
+            <button onClick={handleLogout} className="btn logout-button">Logout</button>
+          </div>
         </div>
-      </div>
-      <button onClick={handleLogout} className="btn logout-button">Logout</button>
-    </div>
-  </div>
-</header>
+      </header>
 
       <div className="tabs-container">
         <div className="container">
@@ -287,18 +334,39 @@ const TeacherDashboard = () => {
       )}
 
       {activeTab === 'view' && (
-        <div className="teacher-records-container">
-          <div className="teacher-records-header">
+        <div className="dashboard-content">
+          <div className="form-header">
             <h2>Late Coming Records</h2>
             <p>View and manage student late coming records</p>
+            <div className="filter-options">
+              <label className="filter-checkbox">
+                <input 
+                  type="checkbox" 
+                  checked={showOnlyMySection} 
+                  onChange={toggleSectionFilter}
+                />
+                <span>Show only my section students (Section {teacherSection})</span>
+              </label>
+            </div>
+
+            {/* Date Filter */}
+            <div className="filter-date">
+              <label htmlFor="date">Filter by Date:</label>
+              <input 
+                type="date" 
+                id="date" 
+                value={selectedDate} 
+                onChange={(e) => setSelectedDate(e.target.value)} 
+              />
+            </div>
           </div>
           <div className="table-container">
             {loading ? (
               <div className="no-records">Loading records...</div>
-            ) : records.length === 0 ? (
+            ) : filteredRecords.length === 0 ? (
               <div className="no-records">No records found</div>
             ) : (
-              <table className="teacher-records-table">
+              <table>
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -312,7 +380,7 @@ const TeacherDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {records.map((record) => (
+                  {filteredRecords.map((record) => (
                     <tr key={record._id}>
                       <td>{formatDate(record.date)}</td>
                       <td>{record.regdNumber}</td>

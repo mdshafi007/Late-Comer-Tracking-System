@@ -165,7 +165,6 @@ body {
 }
 
 .tab-button {
-  
   transition: all 0.2s ease;
 }
 
@@ -314,7 +313,6 @@ body {
   font-size: 14px;
   flex: 1;
 }
-
 
 .simple-records-container {
   max-width: 768px;
@@ -478,6 +476,7 @@ body {
     margin-bottom: 4px;
   }
 }
+
 /* Alerts */
 .alert {
   padding: 12px 16px;
@@ -744,6 +743,7 @@ body {
     }
   }
 }
+
 /* Compact Teacher Dashboard - Late Coming Records Section */
 .teacher-records-container {
   max-width: 1050px; /* Fixed width instead of percentage */
@@ -773,25 +773,23 @@ body {
   margin: 0;
 }
 
+/* IMPROVED TABLE STYLES - START */
 .table-container {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden; /* Changed from auto to hidden */
   padding: 0;
 }
 
-/* Compact table styles */
-.teacher-records-table {
+table {
   width: 100%;
+  min-width: unset; /* Removed fixed min-width */
   border-collapse: collapse;
+  table-layout: fixed; /* Added fixed layout for better column control */
   margin: 0;
 }
 
-table {
-  min-width: 800px;
-}
-
 table th {
-  padding: 12px 16px;
+  padding: 12px 8px; /* Reduced padding */
   text-align: left;
   font-size: 12px;
   font-weight: 600;
@@ -801,61 +799,68 @@ table th {
   position: sticky;
   top: 0;
   z-index: 10;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 table td {
-  padding: 10px 16px;
+  padding: 10px 8px; /* Reduced padding */
   font-size: 13px;
   color: #334155;
   border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
+  word-break: break-word; /* Allow words to break */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis for text overflow */
 }
 
 table tr:hover td {
   background-color: #f8fafc;
 }
 
-/* Column widths - more compact */
+/* Optimized column widths */
 table th:nth-child(1),
 table td:nth-child(1) {
-  width: 110px; /* Date */
+  width: 12%; /* Date */
 }
 
 table th:nth-child(2),
 table td:nth-child(2) {
-  width: 90px; /* Reg Number */
+  width: 11%; /* Reg Number */
 }
 
 table th:nth-child(3),
 table td:nth-child(3) {
-  width: 100px; /* Name */
+  width: 12%; /* Name */
 }
 
 table th:nth-child(4),
 table td:nth-child(4) {
-  width: 80px; /* Department */
+  width: 9%; /* Department */
 }
 
 table th:nth-child(5),
 table td:nth-child(5) {
-  width: 70px; /* Section */
+  width: 8%; /* Section */
 }
 
 table th:nth-child(6),
 table td:nth-child(6) {
-  width: 70px; /* Time */
+  width: 8%; /* Time */
 }
 
 table th:nth-child(7),
 table td:nth-child(7) {
-  width: 100px; /* Reason */
+  width: 28%; /* Reason - more space for potentially longer text */
 }
 
 table th:nth-child(8),
 table td:nth-child(8) {
-  width: 80px; /* Action */
+  width: 12%; /* Action */
   text-align: center;
 }
+/* IMPROVED TABLE STYLES - END */
 
 /* Compact delete button */
 .delete-button {
@@ -868,6 +873,7 @@ table td:nth-child(8) {
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s;
+  min-width: 60px; /* Ensure minimum width */
 }
 
 .delete-button:hover {
@@ -887,4 +893,228 @@ table td:nth-child(8) {
   .teacher-records-container {
     max-width: 95%;
   }
+  
+  .dashboard-content {
+    max-width: 95%; /* Make content use more screen space */
+    margin: 0 auto 24px;
+  }
+  
+  /* Additional responsive adjustments for table */
+  table th, 
+  table td {
+    padding: 8px 4px; /* Further reduce padding on smaller screens */
+  }
+  
+  /* Adjust column widths for smaller screens if needed */
+  table th:nth-child(4),
+  table td:nth-child(4),
+  table th:nth-child(5),
+  table td:nth-child(5) {
+    width: 7%; /* Smaller width for department and section */
+  }
 }
+
+/* Filter options styling */
+.filter-options {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.filter-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.filter-checkbox span {
+  user-select: none;
+}
+
+.filter-checkbox input[type="checkbox"]:checked + span {
+  color: #2c5282;
+  font-weight: 500;
+}
+
+/* Mobile-specific styles for the table view */
+@media (max-width: 768px) {
+  /* Adjust the filter checkbox for mobile */
+  .filter-checkbox {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  /* Make the table better on small screens */
+  .table-container {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+  
+  /* Table modifications for mobile */
+  table {
+    font-size: 12px;
+  }
+  
+  table th, 
+  table td {
+    padding: 6px 3px;
+    line-height: 1.3;
+  }
+  
+  /* Make specific columns smaller on mobile */
+  table th:nth-child(1), table td:nth-child(1) { width: 14%; } /* Date */
+  table th:nth-child(2), table td:nth-child(2) { width: 10%; } /* Reg Number */
+  table th:nth-child(3), table td:nth-child(3) { width: 12%; } /* Name */
+  table th:nth-child(4), table td:nth-child(4) { width: 8%; } /* Department */
+  table th:nth-child(5), table td:nth-child(5) { width: 6%; } /* Section */
+  table th:nth-child(6), table td:nth-child(6) { width: 8%; } /* Time */
+  table th:nth-child(7), table td:nth-child(7) { width: 21%; } /* Reason */
+  table th:nth-child(8), table td:nth-child(8) { width: 15%; } /* Action */
+  
+  /* Make headers and cells more compact */
+  table th {
+    font-size: 11px;
+    white-space: nowrap;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  
+  /* Better text handling in cells */
+  table td {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+  
+  /* Optimize the delete button for mobile */
+  .delete-button {
+    padding: 4px 6px;
+    font-size: 11px;
+    min-width: 50px;
+  }
+  
+  /* For very small mobile screens */
+  @media (max-width: 480px) {
+    /* Prevent header text duplication */
+    table th::after {
+      display: none !important;
+    }
+    
+    /* Fix proper spacing for table cells */
+    table th, 
+    table td {
+      padding: 4px 2px;
+      font-size: 10px;
+    }
+    
+    /* Better column distribution */
+    table th:nth-child(1), table td:nth-child(1) { width: 12%; } /* Date */
+    table th:nth-child(2), table td:nth-child(2) { width: 8%; } /* Reg Number */
+    table th:nth-child(3), table td:nth-child(3) { width: 10%; } /* Name */
+    table th:nth-child(4), table td:nth-child(4) { width: 7%; } /* Department */
+    table th:nth-child(5), table td:nth-child(5) { width: 5%; } /* Section */
+    
+    /* Fix time column specifically */
+    table th:nth-child(6), table td:nth-child(6) { 
+      width: 10%; /* Time - give it more space */
+      text-align: center;
+      font-size: 10px;
+    }
+    
+    /* Truncate reason with ellipsis if needed */
+    table th:nth-child(7), table td:nth-child(7) { 
+      width: 20%; 
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 60px;
+    }
+    
+    /* Make action column compact */
+    table th:nth-child(8), table td:nth-child(8) { 
+      width: 15%; 
+      padding-left: 0;
+      padding-right: 0;
+    }
+  
+    /* Even smaller delete button */
+    .delete-button {
+      padding: 2px 3px;
+      font-size: 9px;
+      min-width: 40px;
+    }
+  
+    /* For extremely small screens - adjust column distribution */
+    table th:nth-child(1), table td:nth-child(1) { width: 14%; } /* Date */
+    table th:nth-child(2), table td:nth-child(2) { width: 9%; } /* Reg Number */
+    table th:nth-child(3), table td:nth-child(3) { width: 10%; } /* Name */
+    table th:nth-child(4), table td:nth-child(4) { width: 7%; } /* Department */
+    table th:nth-child(5), table td:nth-child(5) { width: 5%; } /* Section */
+    table th:nth-child(6), table td:nth-child(6) { width: 7%; } /* Time */
+    table th:nth-child(7), table td:nth-child(7) { width: 22%; } /* Reason */
+    table th:nth-child(8), table td:nth-child(8) { width: 14%; } /* Action */
+    
+    /* Make table headers shorter on mobile */
+    table th:nth-child(1)::after { content: 'Date'; display: none; }
+    table th:nth-child(1)::before { content: 'Date'; }
+    
+    table th:nth-child(2)::after { content: 'Regd Number'; display: none; }
+    table th:nth-child(2)::before { content: 'Reg#'; }
+    
+    table th:nth-child(4)::after { content: 'Department'; display: none; }
+    table th:nth-child(4)::before { content: 'Dept'; }
+    
+    table th:nth-child(5)::after { content: 'Section'; display: none; }
+    table th:nth-child(5)::before { content: 'Sec'; }
+    
+    table th:nth-child(6)::after { content: 'Time'; display: none; }
+    table th:nth-child(6)::before { content: 'Time'; }
+    
+    table th:nth-child(7)::after { content: 'Reason'; display: none; }
+    table th:nth-child(7)::before { content: 'Reason'; }
+    
+    table th:nth-child(8)::after { content: 'Action'; display: none; }
+    table th:nth-child(8)::before { content: 'Action'; }
+    
+    /* Format the date nicely on mobile */
+    td:first-child {
+      white-space: nowrap;
+      font-size: 10px;
+    }
+    
+    /* Department abbreviation */
+    td:nth-child(4) {
+      text-align: center;
+    }
+  
+    /* Better checkbox positioning for mobile */
+    .filter-checkbox {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      width: 100%;
+    }
+    
+    .filter-checkbox input[type="checkbox"] {
+      margin-right: 8px;
+      min-width: 16px;
+      height: 16px;
+    }
+  }
+}
+

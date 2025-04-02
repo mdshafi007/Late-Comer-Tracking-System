@@ -32,6 +32,11 @@ const teacherSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    section: {
+        type: String,
+        required: true,
+        enum: ['A', 'B', 'C', 'D']
     }
 });
 
@@ -72,7 +77,7 @@ const lateRecordSchema = new mongoose.Schema({
 const Teacher = mongoose.model('Teacher', teacherSchema);
 const LateRecord = mongoose.model('LateRecord', lateRecordSchema);
 
-// Initialize default teacher
+// Initialize default teacher with section assignment
 async function initializeTeacher() {
     try {
         const teacherExists = await Teacher.findOne({ teacherId: '4272' });
@@ -80,7 +85,8 @@ async function initializeTeacher() {
             const hashedPassword = await bcrypt.hash('shafi123', 10);
             await Teacher.create({
                 teacherId: '4272',
-                password: hashedPassword
+                password: hashedPassword,
+                section: 'A' // Teacher 4272 is assigned to section A
             });
             console.log('Default teacher account created');
         }
@@ -92,23 +98,9 @@ async function initializeTeacher() {
 initializeTeacher();
 
 // Middleware to verify teacher token
-const verifyTeacher = async (req, res, next) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'No token provided' });
-        }
+// Get All Late Records (Teacher View)
 
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (decoded.role !== 'teacher') {
-            return res.status(403).json({ message: 'Not authorized' });
-        }
 
-        next();
-    } catch (error) {
-        res.status(401).json({ message: 'Invalid token' });
-    }
-};
 
 // Routes
 
@@ -127,10 +119,46 @@ app.post('/api/teacher/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: teacher._id, role: 'teacher' }, JWT_SECRET);
-        res.json({ token });
+        const token = jwt.sign({ id: teacher._id, role: 'teacher', teacherId: teacherId }, JWT_SECRET);
+        res.json({ 
+            token,
+            teacherId: teacherId,
+            section: teacher.section 
+        });
     } catch (error) {
         console.error('Login error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+const verifyTeacher = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded.role !== 'teacher') {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+};
+
+// Get Teacher Section
+app.get('/api/teacher/section', verifyTeacher, async (req, res) => {
+    try {
+        const teacher = await Teacher.findById(req.teacherId);
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
+        }
+        res.json({ section: teacher.section });
+    } catch (error) {
+        console.error('Error fetching teacher section:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -239,6 +267,7 @@ app.get('/api/students', verifyTeacher, async (req, res) => {
     }
 });
 
+
 // Get Department Records
 app.get('/api/department/:department', verifyTeacher, async (req, res) => {
     try {
@@ -307,4 +336,5 @@ app.listen(PORT, () => {
     console.log('Default teacher credentials:');
     console.log('Teacher ID: 4272');
     console.log('Password: shafi123');
+    console.log('Section: A');
 });
